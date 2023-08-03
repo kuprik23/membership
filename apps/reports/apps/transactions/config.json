@@ -1,0 +1,8 @@
+{
+	"title": "Transactions",
+	"path": "transactions",
+	"permissions": [
+		"superadmin"
+	],
+	"priority": 4
+}

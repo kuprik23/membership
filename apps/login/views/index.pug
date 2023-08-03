@@ -1,0 +1,14 @@
+extends /src/views/base.pug
+
+block prepend title
+	- title = app.title
+
+block navbar
+
+block contents
+	.row
+		.col-md-12
+			+page_header( app.title )
+			.row
+				.col-md-4
+					include partials/form.pug

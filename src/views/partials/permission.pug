@@ -1,0 +1,39 @@
+span.list-group-item( class=( permission.date_added > moment() || permission.date_expires != undefined && permission.date_expires < moment() ? 'disabled' : '' ) )
+	h4.list-group-item-heading #{ permission.permission.name }
+		if access( 'admin' )
+			if permission.permission.slug == config.permission.member
+				| 
+				small: span.label.label-success Membership
+			if permission.permission.slug == config.permission.superadmin
+				| 
+				small: span.label.label-danger Super Admin
+			if permission.permission.slug == config.permission.admin
+				| 
+				small: span.label.label-primary Admin
+			if member && member.can_admin && member.can_admin.indexOf( permission.permission.slug ) != -1
+				| 
+				small: span.label.label-primary Permission Admin
+	if permission.permission.description
+		p.list-group-item-text #{ permission.permission.description }
+	p.list-group-item-text Valid&nbsp;
+		time( datetime=moment( permission.date_added, moment.ISO_8601 ), title=moment( permission.date_added ).format( 'HH:mm:ss DD/MM/Y' ) ) #{ moment( permission.date_added ).format( 'DD/MM/Y' ) }
+		if permission.date_expires
+			|  &mdash;
+			time( datetime=moment( permission.date_expires, moment.ISO_8601 ), title=moment( permission.date_expires ).format( 'HH:mm:ss DD/MM/Y' ) ) #{ moment( permission.date_expires ).format( 'DD/MM/Y' ) }
+
+		else
+			|  onwards
+	span( style="position: absolute; top: 1em; right: 1em;" )
+		if admin_area
+			if can_admin && can_admin( permission.permission.slug ) || access( 'superadmin' )
+				a( href="/members/" + member.uuid + "/permissions/" + permission._id + "/modify", style="margin-right: 1em;" )
+					span.glyphicon.glyphicon-pencil
+				form( action="/members/" + member.uuid + "/permissions/" + permission._id + "/revoke", method="post", style="display:inline;" )
+					+csrf
+					button.btn-link
+						span.glyphicon.glyphicon-remove
+		else
+			if moment() < permission.date_added
+				span.label.label-default Pending
+			if permission.date_expires != undefined && moment() > permission.date_expires
+				span.label.label-default Expired

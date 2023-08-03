@@ -1,0 +1,42 @@
+include mixins.pug
+doctype html
+html
+	head
+		meta( charset="utf-8" )
+		meta( name="viewport", content="initial-scale=1.0, width=device-width" )
+		link( rel="shortcut icon" href="/imgs/favicon.ico" )
+		block title
+			if title
+				title #{ title } &mdash; #{ Options( 'software-name' ) } &mdash; #{ Options( 'organisation' ) }
+			else
+				title #{ Options( 'software-name' ) } &mdash; #{ Options( 'organisation' ) }
+		block head
+			block css
+				link( rel="stylesheet", href="/css/theme.min.css" )
+				link( rel="stylesheet", href="/css/style.css" )
+			block js
+				script( src="/js/jquery.js" )
+				script( src="/js/bootstrap.js" )
+				script( src="/js/script.js" )
+	body( class=( dev ? 'dev' : '' ) )
+		block body
+			.container
+				a( href="/" ).logo
+				block navbar
+					include partials/navbar.pug
+				block breadcrumb
+					include partials/breadcrumb.pug
+				include partials/flash.pug
+				block heading
+					if heading
+						+page_header( heading )
+				block contents
+				block footer
+					.row
+						.col-md-12
+							hr
+							small.text-muted #{ Options( 'organisation' ) }, #{ Options( 'software-name' ) } &mdash;
+								|  
+								a( href="https://github.com/southlondonmakerspace/membership-system", target="_blank" ) Contribute on GitHub
+							small.text-muted.pull-right
+								| #{ git }

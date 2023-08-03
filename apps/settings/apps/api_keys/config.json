@@ -1,0 +1,8 @@
+{
+	"title": "API Keys",
+	"path": "api-keys",
+	"permissions": [
+		"superadmin"
+	],
+	"priority": 4
+}

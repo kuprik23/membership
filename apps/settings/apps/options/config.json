@@ -1,0 +1,8 @@
+{
+	"title": "Options",
+	"path": "options",
+	"permissions": [
+		"superadmin"
+	],
+	"priority": 5
+}

@@ -1,0 +1,41 @@
+extends /src/views/base.pug
+
+block navbar
+
+block prepend title
+	- title = app.title
+
+block append js
+	+passwordRequirementsJS
+
+block append css
+	+passwordRequirementsCSS
+
+block contents
+	.row
+		.col-md-8
+			+page_header( app.title )
+			if Options( 'signup-closed' ) == 'true'
+				+flash( 'warning', 'Unfortunately we are currently not taking new membership signups.', { text: 'Find out more', url: Options( 'signup-redirect' ), type: 'danger' } )
+			p Thanks for choosing to join #{ Options( 'organisation' ) }. Just so you know, you must be over 18 to become a member.
+			form( method="post" ).form-horizontal
+				+csrf
+				+page_header( 'Login Details' )
+				p To keep things simple we use your email address as your login username.
+				
+				+input( 'email', 'Email', 'email', { values: user.email, required: true, left: 3, right: 4 } )
+				
+				+input( 'password', 'Password', 'password', { required: true, id: 'password', class: 'pw-req', left: 3, right: 4 } )
+				+input( 'password', 'Verify password', 'verify', { required: true, id: 'verify', class: 'pw-mat', left: 3, right: 4 } )
+				
+				+page_header( 'Personal Details' )
+				p As a membership organisation, we are legally required to keep your name and address on record and available for inspection.
+				
+				+input( 'text', 'First Name', 'firstname', { value: user.firstname, required: true, left: 3, right: 4 } )
+				+input( 'text', 'Last Name', 'lastname', { value: user.lastname,  required: true, left: 3, right: 4 } )
+				+input( 'textarea', 'Address', 'address', { value: user.address, required: true, left: 3, right: 4 } )
+				+form_button( 'Next', 'primary', { left: 3 } )
+		.col-md-4
+			+page_header( 'Existing member' )
+			p If you are already a member you can just login.
+			include /apps/login/views/partials/form.pug

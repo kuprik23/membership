@@ -1,0 +1,10 @@
+{
+	"title": "Settings",
+	"path": "settings",
+	"permissions": [
+		"superadmin"
+	],
+	"menu": "main",
+	"hidden": true,
+	"priority": 1
+}
